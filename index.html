@@ -21,7 +21,8 @@
     <button class="filtre-btn" data-categorie="Communiqués">Communiqués</button>
     <button class="filtre-btn" data-categorie="Portraits des députés">Portraits des députés</button>
     <button class="filtre-btn" data-categorie="Actualités Tchad">Actualités Tchad</button>
-</div>
+</div> 
+<button id="mode-admin" class="mode-admin-btn">🔒 Mode admin</button>
 <div class="formulaire">
     <h2>Ajouter un article</h2>
     <input type="text" id="nouveau-titre" placeholder="Titre de l'article">
@@ -31,8 +32,15 @@
     <option value="Communiqués">Communiqués</option>
     <option value="Portraits des députés">Portraits des députés</option>
     <option value="Actualités Tchad">Actualités Tchad</option>
+    <div class="formulaire" id="formulaire-ajout">
+    </div>
 </select>
     <textarea id="nouveau-resume" placeholder="Résumé de l'article"></textarea>
+    <label style="display:block; margin-top:10px; font-size:14px;">Image de l'article :</label>
+<input type="file" id="nouvelle-image" accept="image/*">
+
+<label style="display:block; margin-top:10px; font-size:14px;">Lien vidéo (YouTube, optionnel) :</label>
+<input type="text" id="nouvelle-video" placeholder="https://youtube.com/watch?v=...">
     <button id="bouton-publier">Publier</button>
 </div>
 

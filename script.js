@@ -1,3 +1,5 @@
+const MOT_DE_PASSE_ADMIN = "undr2026"; // changez ce mot de passe
+let estAdmin = sessionStorage.getItem("adminUNDR") === "true";
 const articlesParDefaut = [
     {
         id: 1,
@@ -27,6 +29,37 @@ const conteneur = document.getElementById("liste-articles");
 const boutonsFiltre = document.querySelectorAll(".filtre-btn");
 const menuToggle = document.getElementById("menu-toggle");
 const filtresList = document.getElementById("filtres-list");
+const boutonAdmin = document.getElementById("mode-admin");
+const formulaireAjout = document.getElementById("formulaire-ajout");
+
+function metAJourAffichageAdmin() {
+    if (estAdmin) {
+        formulaireAjout.style.display = "block";
+        boutonAdmin.textContent = "🔓 Quitter mode admin";
+    } else {
+        formulaireAjout.style.display = "none";
+        boutonAdmin.textContent = "🔒 Mode admin";
+    }
+}
+
+boutonAdmin.addEventListener("click", function() {
+    if (estAdmin) {
+        estAdmin = false;
+        sessionStorage.removeItem("adminUNDR");
+    } else {
+        const saisie = prompt("Mot de passe administrateur :");
+        if (saisie === MOT_DE_PASSE_ADMIN) {
+            estAdmin = true;
+            sessionStorage.setItem("adminUNDR", "true");
+        } else if (saisie !== null) {
+            alert("Mot de passe incorrect.");
+        }
+    }
+    metAJourAffichageAdmin();
+    afficherArticles();
+});
+
+metAJourAffichageAdmin();
 
 menuToggle.addEventListener("click", function() {
     filtresList.classList.toggle("ouvert");
@@ -39,13 +72,29 @@ function afficherArticles() {
     liste.forEach((art, i) => {
         const div = document.createElement("div");
         div.className = i === 0 ? "article une" : "article";
+
+        const imageSrc = art.image && art.image !== ""
+            ? art.image
+            : `https://picsum.photos/seed/${encodeURIComponent(art.titre)}/400/200`;
+
+        let videoHTML = "";
+        if (art.video && art.video !== "") {
+            if (art.video.includes("youtube.com") || art.video.includes("youtu.be")) {
+                const idVideo = art.video.split("v=")[1] ? art.video.split("v=")[1].split("&")[0] : art.video.split("/").pop();
+                videoHTML = `<iframe class="article-video" src="https://www.youtube.com/embed/${idVideo}" frameborder="0" allowfullscreen></iframe>`;
+            } else {
+                videoHTML = `<video class="article-video" src="${art.video}" controls></video>`;
+            }
+        }
+
         div.innerHTML = `
-            <img src="https://picsum.photos/seed/${encodeURIComponent(art.titre)}/400/200" class="article-img" alt="${art.titre}">
+            <img src="${imageSrc}" class="article-img" alt="${art.titre}">
+            ${videoHTML}
             <span class="badge">${art.categorie}</span>
             <h2>${art.titre}</h2>
             <p class="date">${art.date}</p>
             <p>${art.resume}</p>
-            <button class="btn-supprimer" data-id="${art.id}">Supprimer</button>
+            ${estAdmin ? `<button class="btn-supprimer" data-id="${art.id}">Supprimer</button>` : ""}
         `;
         conteneur.appendChild(div);
     });
@@ -68,19 +117,46 @@ const champCategorie = document.getElementById("nouvelle-categorie");
 const champResume = document.getElementById("nouveau-resume");
 const boutonPublier = document.getElementById("bouton-publier");
 
+const champImage = document.getElementById("nouvelle-image");
+const champVideo = document.getElementById("nouvelle-video");
+
 boutonPublier.addEventListener("click", function() {
     if (champTitre.value === "" || champResume.value === "") {
         alert("Merci de remplir le titre et le résumé.");
         return;
     }
 
-    const nouvelArticle = {
-    id: Date.now(),
-        titre: champTitre.value,
-        date: new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
-        resume: champResume.value,
-        categorie: champCategorie.value
-    };
+    function publier(imageData) {
+        const nouvelArticle = {
+            id: Date.now(),
+            titre: champTitre.value,
+            date: new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
+            resume: champResume.value,
+            categorie: champCategorie.value,
+            image: imageData || "",
+            video: champVideo.value.trim()
+        };
+
+        articles.unshift(nouvelArticle);
+        localStorage.setItem("articlesUNDR", JSON.stringify(articles));
+
+        champTitre.value = "";
+        champResume.value = "";
+        champVideo.value = "";
+        champImage.value = "";
+
+        afficherArticles();
+    }
+
+    if (champImage.files && champImage.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            publier(e.target.result);
+        };
+        reader.readAsDataURL(champImage.files[0]);
+    } else {
+        publier(null);
+    }
 
     articles.unshift(nouvelArticle);
     localStorage.setItem("articlesUNDR", JSON.stringify(articles));

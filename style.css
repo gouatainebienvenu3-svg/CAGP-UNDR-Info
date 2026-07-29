@@ -300,3 +300,38 @@ main {
 .article:not(.une) {
     border-top: 3px solid #e67e22;
 }
+.mode-admin-btn {
+    display: block;
+    margin: 10px auto 0;
+    padding: 6px 14px;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+} .article {
+    overflow: hidden;
+}
+
+.article-img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.article.une .article-img {
+    height: 220px;
+}
+
+.article-video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
