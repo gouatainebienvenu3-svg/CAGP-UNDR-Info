@@ -1,0 +1,302 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f5f7;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #003366;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+main {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.article {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.article h2 {
+    margin-top: 0;
+    color: #003366;
+}
+
+.article .date {
+ .filtres {
+    max-width: 700px;
+    margin: 20px auto 0;
+    padding: 15px 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-bottom: 1px solid #eee;
+}
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filtre-btn {
+    padding: 8px 16px;
+    border: 1px solid #003366;
+    background-color: white;
+    color: #003366;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filtre-btn.actif {
+    background-color: #003366;
+    color: white;
+}
+
+.badge {
+    display: inline-block;
+    background-color: #e0e7ff;
+    color: #003366;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+.formulaire {
+    max-width: 700px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.formulaire h2 {
+    margin-top: 0;
+    color: #003366;
+}
+
+.formulaire input,
+.formulaire select,
+.formulaire textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.formulaire textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.formulaire button {
+    padding: 10px 20px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.filtres {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 5;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.grille-articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+}
+
+main {
+    max-width: 1000px !important;
+}
+
+.article.une {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #003366, #00509e);
+    color: white;
+    padding: 30px;
+}
+
+.article.une h2 {
+    color: white;
+    font-size: 28px;
+}
+
+.article.une .date {
+    color: #cdd9e8;
+}
+
+.article.une .badge {
+    background: rgba(255,255,255,0.2);
+    color: white;
+} /* Espacement entre formulaire et articles */
+.formulaire {
+    margin-bottom: 20px;
+}
+
+/* Majuscule automatique sur les titres */
+.article h2 {
+    text-transform: capitalize;
+}
+
+/* Effet au survol des cartes (sauf la une) */
+.article:not(.une) {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.article:not(.une):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* Ligne d'accent rouge façon presse, sur la carte à la une */
+.article.une {
+    border-left: 6px solid #e63946;
+}
+
+/* Un peu d'air général */
+.grille-articles {
+    margin-top: 20px;
+} .menu-toggle {
+    display: none;
+    max-width: 700px;
+    margin: 20px auto 0;
+    padding: 10px 16px;
+    background: #003366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .filtres {
+        display: none;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .filtres.ouvert {
+        display: flex;
+    }
+} .logo {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+} .chat-box {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.chat-messages {
+    height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+}
+
+.chat-msg {
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.chat-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+#chat-pseudo {
+    width: 100px;
+}
+
+#chat-message {
+    flex: 1;
+}
+
+.chat-input-row input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#chat-envoyer {
+    padding: 8px 16px;
+    background: #003366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+} /* Bordure orange sur les badges de catégorie */
+.badge {
+    border-left: 3px solid #e67e22;
+}
+
+/* Bouton Publier en orange au survol */
+.formulaire button:hover {
+    background-color: #e67e22;
+}
+
+/* Boutons de filtre actifs : dégradé bleu-orange */
+.filtre-btn.actif {
+    background: linear-gradient(135deg, #003366, #e67e22);
+}
+
+/* Bouton Envoyer du chat, accent orange au survol */
+#chat-envoyer:hover {
+    background-color: #e67e22;
+}
+
+/* Liseré orange sur les cartes d'articles (pas juste la une) */
+.article:not(.une) {
+    border-top: 3px solid #e67e22;
+}
