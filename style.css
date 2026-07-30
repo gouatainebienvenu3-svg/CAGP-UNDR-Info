@@ -20,70 +20,95 @@ header {
     z-index: 10;
 }
 
+.logo {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+}
+
 main {
-    max-width: 700px;
+    max-width: 1000px;
     margin: 30px auto;
     padding: 0 20px;
 }
 
-.article {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.article h2 {
-    margin-top: 0;
-    color: #003366;
-}
-
-.article .date {
- .filtres {
-    max-width: 700px;
-    margin: 20px auto 0;
-    padding: 15px 20px;
+/* Filtres façon RFI */
+.filtres {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    overflow-x: auto;
     background: white;
+    border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
     z-index: 5;
-    border-bottom: 1px solid #eee;
-}
-    gap: 10px;
-    flex-wrap: wrap;
 }
 
 .filtre-btn {
-    padding: 8px 16px;
-    border: 1px solid #003366;
-    background-color: white;
-    color: #003366;
-    border-radius: 20px;
+    background: none;
+    border: none;
+    padding: 14px 0;
+    font-size: 15px;
+    color: #555;
     cursor: pointer;
-    font-size: 14px;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
 }
 
 .filtre-btn.actif {
-    background-color: #003366;
-    color: white;
+    color: #e67e22;
+    font-weight: bold;
+    border-bottom: 3px solid #e67e22;
 }
 
-.badge {
-    display: inline-block;
-    background-color: #e0e7ff;
-    color: #003366;
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 12px;
-    margin-bottom: 8px;
+.menu-toggle {
+    display: none;
+    max-width: 700px;
+    margin: 20px auto 0;
+    padding: 10px 16px;
+    background: #003366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
 }
+
+@media (max-width: 600px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .filtres {
+        display: none;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .filtres.ouvert {
+        display: flex;
+    }
+}
+
+.mode-admin-btn {
+    display: block;
+    margin: 10px auto 0;
+    padding: 6px 14px;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* Formulaire */
 .formulaire {
     max-width: 700px;
-    margin: 30px auto 0;
+    margin: 30px auto 20px;
     padding: 20px;
     background-color: white;
     border-radius: 10px;
@@ -120,38 +145,78 @@ main {
     cursor: pointer;
     font-size: 15px;
 }
-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+
+.formulaire button:hover {
+    background-color: #e67e22;
 }
 
-.filtres {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 5;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-}
-
+/* Grille d'articles */
 .grille-articles {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
     max-width: 1000px;
+    margin-top: 20px;
 }
 
-main {
-    max-width: 1000px !important;
+.article {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    border-top: 3px solid #e67e22;
 }
 
+.article:not(.une) {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.article:not(.une):hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.article h2 {
+    margin-top: 0;
+    color: #003366;
+    text-transform: capitalize;
+}
+
+.article .date {
+    color: #888;
+    font-size: 14px;
+}
+
+.article-img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.article-video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Article à la une */
 .article.une {
     grid-column: 1 / -1;
     background: linear-gradient(135deg, #003366, #00509e);
     color: white;
     padding: 30px;
+    border-top: none;
+    border-left: 6px solid #e63946;
 }
 
 .article.une h2 {
@@ -166,67 +231,63 @@ main {
 .article.une .badge {
     background: rgba(255,255,255,0.2);
     color: white;
-} /* Espacement entre formulaire et articles */
-.formulaire {
-    margin-bottom: 20px;
 }
 
-/* Majuscule automatique sur les titres */
-.article h2 {
-    text-transform: capitalize;
+.article.une .article-img {
+    height: 220px;
 }
 
-/* Effet au survol des cartes (sauf la une) */
-.article:not(.une) {
-    transition: transform 0.2s, box-shadow 0.2s;
+/* Badge de catégorie */
+.badge {
+    display: inline-block;
+    background-color: #e0e7ff;
+    color: #003366;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border-left: 3px solid #e67e22;
 }
 
-.article:not(.une):hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}
-
-/* Ligne d'accent rouge façon presse, sur la carte à la une */
-.article.une {
-    border-left: 6px solid #e63946;
-}
-
-/* Un peu d'air général */
-.grille-articles {
-    margin-top: 20px;
-} .menu-toggle {
-    display: none;
-    max-width: 700px;
-    margin: 20px auto 0;
-    padding: 10px 16px;
-    background: #003366;
+/* Bouton supprimer */
+.btn-supprimer {
+    margin-top: 10px;
+    padding: 6px 14px;
+    background: #e63946;
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 15px;
     cursor: pointer;
+    font-size: 13px;
 }
 
-@media (max-width: 600px) {
-    .menu-toggle {
-        display: block;
-    }
+.btn-supprimer:hover {
+    background: #c1121f;
+}
 
-    .filtres {
-        display: none;
-        flex-direction: column;
-        margin-top: 10px;
-    }
+/* Vue détail d'un article */
+.vue-detail {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
 
-    .filtres.ouvert {
-        display: flex;
-    }
-} .logo {
-    max-width: 120px;
-    height: auto;
-    display: block;
-    margin: 0 auto 10px;
-} .chat-box {
+.retour-btn {
+    background: none;
+    border: none;
+    color: #003366;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+#vue-detail .article-img {
+    height: 220px;
+}
+
+/* Chat en direct */
+.chat-box {
     max-width: 700px;
     margin: 30px auto;
     padding: 20px;
@@ -276,62 +337,8 @@ main {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-} /* Bordure orange sur les badges de catégorie */
-.badge {
-    border-left: 3px solid #e67e22;
 }
 
-/* Bouton Publier en orange au survol */
-.formulaire button:hover {
-    background-color: #e67e22;
-}
-
-/* Boutons de filtre actifs : dégradé bleu-orange */
-.filtre-btn.actif {
-    background: linear-gradient(135deg, #003366, #e67e22);
-}
-
-/* Bouton Envoyer du chat, accent orange au survol */
 #chat-envoyer:hover {
     background-color: #e67e22;
-}
-
-/* Liseré orange sur les cartes d'articles (pas juste la une) */
-.article:not(.une) {
-    border-top: 3px solid #e67e22;
-}
-.mode-admin-btn {
-    display: block;
-    margin: 10px auto 0;
-    padding: 6px 14px;
-    background: #eee;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-} .article {
-    overflow: hidden;
-}
-
-.article-img {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-.article.une .article-img {
-    height: 220px;
-}
-
-.article-video {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 200px;
-    border-radius: 8px;
-    margin-bottom: 10px;
 }

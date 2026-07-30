@@ -1,30 +1,39 @@
 const MOT_DE_PASSE_ADMIN = "undr2026"; // changez ce mot de passe
 let estAdmin = sessionStorage.getItem("adminUNDR") === "true";
+
 const articlesParDefaut = [
     {
         id: 1,
         titre: "Session parlementaire ouverte",
         date: "20 juillet 2026",
         resume: "Le Groupe Parlementaire UNDR a participé à l'ouverture de la nouvelle session.",
-        categorie: "Actualités"
+        categorie: "Actualités",
+        image: "",
+        video: ""
     },
     {
         id: 2,
         titre: "Visite de terrain dans la région Nord",
         date: "15 juillet 2026",
         resume: "Une délégation du groupe s'est rendue sur le terrain pour rencontrer les populations.",
-        categorie: "Activités"
+        categorie: "Activités",
+        image: "",
+        video: ""
     },
     {
         id: 3,
         titre: "Déclaration officielle du groupe",
         date: "10 juillet 2026",
         resume: "Le groupe a publié une déclaration concernant les récents débats budgétaires.",
-        categorie: "Communiqués"
+        categorie: "Communiqués",
+        image: "",
+        video: ""
     }
 ];
+
 let articles = JSON.parse(localStorage.getItem("articlesUNDR")) || articlesParDefaut;
 let categorieActuelle = "Toutes";
+
 const conteneur = document.getElementById("liste-articles");
 const boutonsFiltre = document.querySelectorAll(".filtre-btn");
 const menuToggle = document.getElementById("menu-toggle");
@@ -72,33 +81,59 @@ function afficherArticles() {
     liste.forEach((art, i) => {
         const div = document.createElement("div");
         div.className = i === 0 ? "article une" : "article";
+        div.dataset.id = art.id;
 
         const imageSrc = art.image && art.image !== ""
             ? art.image
             : `https://picsum.photos/seed/${encodeURIComponent(art.titre)}/400/200`;
 
-        let videoHTML = "";
-        if (art.video && art.video !== "") {
-            if (art.video.includes("youtube.com") || art.video.includes("youtu.be")) {
-                const idVideo = art.video.split("v=")[1] ? art.video.split("v=")[1].split("&")[0] : art.video.split("/").pop();
-                videoHTML = `<iframe class="article-video" src="https://www.youtube.com/embed/${idVideo}" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                videoHTML = `<video class="article-video" src="${art.video}" controls></video>`;
-            }
-        }
-
         div.innerHTML = `
             <img src="${imageSrc}" class="article-img" alt="${art.titre}">
-            ${videoHTML}
             <span class="badge">${art.categorie}</span>
             <h2>${art.titre}</h2>
-            <p class="date">${art.date}</p>
-            <p>${art.resume}</p>
             ${estAdmin ? `<button class="btn-supprimer" data-id="${art.id}">Supprimer</button>` : ""}
         `;
         conteneur.appendChild(div);
     });
 }
+
+function ouvrirArticle(id) {
+    const art = articles.find(a => a.id === id);
+    if (!art) return;
+
+    const imageSrc = art.image && art.image !== ""
+        ? art.image
+        : `https://picsum.photos/seed/${encodeURIComponent(art.titre)}/400/200`;
+
+    document.getElementById("detail-img").src = imageSrc;
+    document.getElementById("detail-badge").textContent = art.categorie;
+    document.getElementById("detail-titre").textContent = art.titre;
+    document.getElementById("detail-date").textContent = art.date;
+    document.getElementById("detail-resume").textContent = art.resume;
+
+    const zoneVideo = document.getElementById("detail-video-zone");
+    zoneVideo.innerHTML = "";
+    if (art.video && art.video !== "") {
+        if (art.video.includes("youtube.com") || art.video.includes("youtu.be")) {
+            const idVideo = art.video.split("v=")[1] ? art.video.split("v=")[1].split("&")[0] : art.video.split("/").pop();
+            zoneVideo.innerHTML = `<iframe class="article-video" src="https://www.youtube.com/embed/${idVideo}" frameborder="0" allowfullscreen></iframe>`;
+        } else {
+            zoneVideo.innerHTML = `<video class="article-video" src="${art.video}" controls></video>`;
+        }
+    }
+
+    conteneur.style.display = "none";
+    filtresList.style.display = "none";
+    menuToggle.style.display = "none";
+    document.getElementById("vue-detail").style.display = "block";
+}
+
+document.getElementById("retour-liste").addEventListener("click", function() {
+    document.getElementById("vue-detail").style.display = "none";
+    conteneur.style.display = "grid";
+    filtresList.style.display = "flex";
+    menuToggle.style.display = window.innerWidth <= 600 ? "block" : "none";
+});
 
 boutonsFiltre.forEach(function(bouton) {
     bouton.addEventListener("click", function() {
@@ -112,11 +147,11 @@ boutonsFiltre.forEach(function(bouton) {
 });
 
 afficherArticles();
+
 const champTitre = document.getElementById("nouveau-titre");
 const champCategorie = document.getElementById("nouvelle-categorie");
 const champResume = document.getElementById("nouveau-resume");
 const boutonPublier = document.getElementById("bouton-publier");
-
 const champImage = document.getElementById("nouvelle-image");
 const champVideo = document.getElementById("nouvelle-video");
 
@@ -157,22 +192,23 @@ boutonPublier.addEventListener("click", function() {
     } else {
         publier(null);
     }
+});
 
-    articles.unshift(nouvelArticle);
-    localStorage.setItem("articlesUNDR", JSON.stringify(articles));
-
-    champTitre.value = "";
-    champResume.value = "";
-
-    afficherArticles();
-    
-}); conteneur.addEventListener("click", function(e) {
+conteneur.addEventListener("click", function(e) {
     if (e.target.classList.contains("btn-supprimer")) {
         const id = Number(e.target.dataset.id);
         articles = articles.filter(a => a.id !== id);
         localStorage.setItem("articlesUNDR", JSON.stringify(articles));
         afficherArticles();
+        return;
     }
-}); if ("serviceWorker" in navigator) {
+
+    const carte = e.target.closest(".article");
+    if (carte) {
+        ouvrirArticle(Number(carte.dataset.id));
+    }
+});
+
+if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
 }

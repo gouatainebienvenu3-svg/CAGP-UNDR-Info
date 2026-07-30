@@ -6,61 +6,78 @@
     <title>UNDR Info</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#003366">
+    <meta name="theme-color" content="#003366">
 </head>
 <body>
+
     <header>
         <img src="logo.png" alt="CAGP-UNDR" class="logo">
         <p>Actualités et activités du Groupe Parlementaire UNDR</p>
     </header>
-<button id="menu-toggle" class="menu-toggle">☰ Filtres</button>
-<div class="filtres" id="filtres-list">
+
+    <button id="menu-toggle" class="menu-toggle">☰ Filtres</button>
+    <div class="filtres" id="filtres-list">
     <button class="filtre-btn actif" data-categorie="Toutes">Toutes</button>
     <button class="filtre-btn" data-categorie="Actualités">Actualités</button>
     <button class="filtre-btn" data-categorie="Activités">Activités</button>
     <button class="filtre-btn" data-categorie="Communiqués">Communiqués</button>
     <button class="filtre-btn" data-categorie="Portraits des députés">Portraits des députés</button>
     <button class="filtre-btn" data-categorie="Actualités Tchad">Actualités Tchad</button>
-</div> 
-<button id="mode-admin" class="mode-admin-btn">🔒 Mode admin</button>
-<div class="formulaire">
-    <h2>Ajouter un article</h2>
-    <input type="text" id="nouveau-titre" placeholder="Titre de l'article">
-    <select id="nouvelle-categorie">
+    <button class="filtre-btn" data-categorie="Actualités Politique">Actualités Politique</button>
+    <button class="filtre-btn" data-categorie="Divertissement">Divertissement</button>
+</div>
+
+    <button id="mode-admin" class="mode-admin-btn">🔒 Mode admin</button>
+
+    <div class="formulaire" id="formulaire-ajout">
+        <h2>Ajouter un article</h2>
+        <input type="text" id="nouveau-titre" placeholder="Titre de l'article">
+        <select id="nouvelle-categorie">
     <option value="Actualités">Actualités</option>
     <option value="Activités">Activités</option>
     <option value="Communiqués">Communiqués</option>
     <option value="Portraits des députés">Portraits des députés</option>
     <option value="Actualités Tchad">Actualités Tchad</option>
-    <div class="formulaire" id="formulaire-ajout">
-    </div>
+    <option value="Actualités Politique">Actualités Politique</option>
+    <option value="Divertissement">Divertissement</option>
 </select>
-    <textarea id="nouveau-resume" placeholder="Résumé de l'article"></textarea>
-    <label style="display:block; margin-top:10px; font-size:14px;">Image de l'article :</label>
-<input type="file" id="nouvelle-image" accept="image/*">
+        <textarea id="nouveau-resume" placeholder="Résumé de l'article"></textarea>
 
-<label style="display:block; margin-top:10px; font-size:14px;">Lien vidéo (YouTube, optionnel) :</label>
-<input type="text" id="nouvelle-video" placeholder="https://youtube.com/watch?v=...">
-    <button id="bouton-publier">Publier</button>
-</div>
+        <label style="display:block; margin-top:10px; font-size:14px;">Image de l'article :</label>
+        <input type="file" id="nouvelle-image" accept="image/*">
 
-<main id="liste-articles" class="grille-articles">
-    <!-- Les articles seront ajoutés ici automatiquement -->
-</main>
+        <label style="display:block; margin-top:10px; font-size:14px;">Lien vidéo (YouTube, optionnel) :</label>
+        <input type="text" id="nouvelle-video" placeholder="https://youtube.com/watch?v=...">
+
+        <button id="bouton-publier">Publier</button>
+    </div>
+
+    <main id="liste-articles" class="grille-articles"></main>
+
+    <div id="vue-detail" class="vue-detail" style="display:none;">
+        <button id="retour-liste" class="retour-btn">← Retour</button>
+        <img id="detail-img" class="article-img" alt="">
+        <div id="detail-video-zone"></div>
+        <span id="detail-badge" class="badge"></span>
+        <h2 id="detail-titre"></h2>
+        <p id="detail-date" class="date"></p>
+        <p id="detail-resume"></p>
+    </div>
 
     <div class="chat-box">
-    <h2>Chat en direct</h2>
-    <div id="chat-messages" class="chat-messages"></div>
-    <div class="chat-input-row">
-        <input type="text" id="chat-pseudo" placeholder="Votre nom" maxlength="20">
-        <input type="text" id="chat-message" placeholder="Votre message">
-        <button id="chat-envoyer">Envoyer</button>
+        <h2>Chat en direct</h2>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input-row">
+            <input type="text" id="chat-pseudo" placeholder="Votre nom" maxlength="20">
+            <input type="text" id="chat-message" placeholder="Votre message">
+            <button id="chat-envoyer">Envoyer</button>
+        </div>
     </div>
-</div>
 
-<script src="script.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="chat.js"></script>
+    <script src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="chat.js"></script>
+
 </body>
 </html>
