@@ -73,6 +73,16 @@ metAJourAffichageAdmin();
 menuToggle.addEventListener("click", function() {
     filtresList.classList.toggle("ouvert");
 });
+document.getElementById("toggle-direct").addEventListener("click", function() {
+    const zone = document.getElementById("zone-direct");
+    if (zone.style.display === "none") {
+        zone.style.display = "block";
+        this.textContent = "✖ Fermer le Direct";
+    } else {
+        zone.style.display = "none";
+        this.textContent = "🔴 Suivre le Direct";
+    }
+});
 
 function afficherArticles() {
     conteneur.innerHTML = "";
@@ -110,6 +120,29 @@ function ouvrirArticle(id) {
     document.getElementById("detail-titre").textContent = art.titre;
     document.getElementById("detail-date").textContent = art.date;
     document.getElementById("detail-resume").textContent = art.resume;
+    document.getElementById("vue-detail").style.display = "block";
+    incrementerVue(id);
+    afficherVue(id);
+    function incrementerVue(id) {
+    if (!window.db) return;
+    const ref = window.db.collection("vues").doc(String(id));
+    ref.get().then(function(doc) {
+        if (doc.exists) {
+            ref.update({ compte: firebase.firestore.FieldValue.increment(1) });
+        } else {
+            ref.set({ compte: 1 });
+        }
+    });
+}
+
+function afficherVue(id) {
+    if (!window.db) return;
+    window.db.collection("vues").doc(String(id)).onSnapshot(function(doc) {
+        const compte = doc.exists ? doc.data().compte : 0;
+        const elem = document.getElementById("detail-vues");
+        if (elem) elem.textContent = compte + (compte > 1 ? " vues" : " vue");
+    });
+}
 
     const zoneVideo = document.getElementById("detail-video-zone");
     zoneVideo.innerHTML = "";
@@ -117,6 +150,13 @@ function ouvrirArticle(id) {
         if (art.video.includes("youtube.com") || art.video.includes("youtu.be")) {
             const idVideo = art.video.split("v=")[1] ? art.video.split("v=")[1].split("&")[0] : art.video.split("/").pop();
             zoneVideo.innerHTML = `<iframe class="article-video" src="https://www.youtube.com/embed/${idVideo}" frameborder="0" allowfullscreen></iframe>`;
+        } else if (art.video.includes("facebook.com")) {
+            const lienEncode = encodeURIComponent(art.video);
+            if (art.video.includes("/videos/") || art.video.includes("/watch")) {
+                zoneVideo.innerHTML = `<iframe class="article-video" src="https://www.facebook.com/plugins/video.php?href=${lienEncode}&show_text=false" frameborder="0" allowfullscreen></iframe>`;
+            } else {
+                zoneVideo.innerHTML = `<iframe class="article-video-facebook" src="https://www.facebook.com/plugins/post.php?href=${lienEncode}&show_text=true" frameborder="0"></iframe>`;
+            }
         } else {
             zoneVideo.innerHTML = `<video class="article-video" src="${art.video}" controls></video>`;
         }

@@ -9,6 +9,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+window.db = db;
 
 const chatMessages = document.getElementById("chat-messages");
 const chatPseudo = document.getElementById("chat-pseudo");

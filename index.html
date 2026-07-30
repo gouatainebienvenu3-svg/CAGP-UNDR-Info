@@ -27,8 +27,6 @@
     <button class="filtre-btn" data-categorie="Divertissement">Divertissement</button>
 </div>
 
-    <button id="mode-admin" class="mode-admin-btn">🔒 Mode admin</button>
-
     <div class="formulaire" id="formulaire-ajout">
         <h2>Ajouter un article</h2>
         <input type="text" id="nouveau-titre" placeholder="Titre de l'article">
@@ -61,6 +59,7 @@
         <span id="detail-badge" class="badge"></span>
         <h2 id="detail-titre"></h2>
         <p id="detail-date" class="date"></p>
+        <p id="detail-vues" class="date"></p>
         <p id="detail-resume"></p>
     </div>
 
@@ -72,8 +71,31 @@
             <input type="text" id="chat-message" placeholder="Votre message">
             <button id="chat-envoyer">Envoyer</button>
         </div>
+        <button id="toggle-direct" class="direct-btn">🔴 Suivre le Direct</button>
+
+<div id="zone-direct" class="zone-direct" style="display:none;">
+    <iframe
+        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAssembleenationaleTchad&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false"
+        width="100%"
+        height="700"
+        style="border:none;overflow:hidden"
+        scrolling="no"
+        frameborder="0"
+        allowfullscreen="true"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+    </iframe>
+</div>
     </div>
 
+    <footer class="pied-de-page">
+    <p>© 2026 CAGP-UNDR — Tous droits réservés</p>
+    <p class="contact-info">
+        📞 <a href="tel:+23566797751">+235 66 79 77 51</a>
+        &nbsp;|&nbsp;
+        ✉️ <a href="mailto:gouatainebienvenu3@gmail.com">gouatainebienvenu3@gmail.com</a>
+    </p>
+    <button id="mode-admin" class="mode-admin-btn">Administration</button>
+</footer>
     <script src="script.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
