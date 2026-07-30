@@ -194,6 +194,36 @@ const champResume = document.getElementById("nouveau-resume");
 const boutonPublier = document.getElementById("bouton-publier");
 const champImage = document.getElementById("nouvelle-image");
 const champVideo = document.getElementById("nouvelle-video");
+let toucheDebutX = 0;
+let toucheDebutY = 0;
+
+conteneur.addEventListener("touchstart", function(e) {
+    toucheDebutX = e.changedTouches[0].screenX;
+    toucheDebutY = e.changedTouches[0].screenY;
+});
+
+conteneur.addEventListener("touchend", function(e) {
+    const toucheFinX = e.changedTouches[0].screenX;
+    const toucheFinY = e.changedTouches[0].screenY;
+    const diffX = toucheFinX - toucheDebutX;
+    const diffY = toucheFinY - toucheDebutY;
+
+    if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
+        const boutons = Array.from(boutonsFiltre);
+        const indexActuel = boutons.findIndex(b => b.classList.contains("actif"));
+
+        let nouvelIndex;
+        if (diffX < 0) {
+            nouvelIndex = Math.min(indexActuel + 1, boutons.length - 1);
+        } else {
+            nouvelIndex = Math.max(indexActuel - 1, 0);
+        }
+
+        if (nouvelIndex !== indexActuel) {
+            boutons[nouvelIndex].click();
+        }
+    }
+});
 
 boutonPublier.addEventListener("click", function() {
     if (champTitre.value === "" || champResume.value === "") {
