@@ -144,6 +144,52 @@ function ouvrirArticle(id) {
     document.getElementById("vue-detail").style.display = "block";
     incrementerVue(id);
     afficherVue(id);
+    afficherLireAussi(art);
+    function afficherLireAussi(articleActuel) {
+    const zone = document.getElementById("lire-aussi");
+
+    let suggestions = articles.filter(a =>
+        a.id !== articleActuel.id && a.categorie === articleActuel.categorie
+    );
+
+    if (suggestions.length < 3) {
+        const autres = articles.filter(a =>
+            a.id !== articleActuel.id && a.categorie !== articleActuel.categorie
+        );
+        suggestions = suggestions.concat(autres);
+    }
+
+    suggestions = suggestions.slice(0, 3);
+
+    if (suggestions.length === 0) {
+        zone.innerHTML = "";
+        return;
+    }
+
+    let html = "<h3>Lire aussi</h3><div class='lire-aussi-grille'>";
+    suggestions.forEach(function(art) {
+        const imageSrc = art.image && art.image !== ""
+            ? art.image
+            : `https://picsum.photos/seed/${encodeURIComponent(art.titre)}/400/200`;
+
+        html += `
+            <div class="lire-aussi-carte" data-id="${art.id}">
+                <img src="${imageSrc}" alt="${art.titre}">
+                <p>${art.titre}</p>
+            </div>
+        `;
+    });
+    html += "</div>";
+
+    zone.innerHTML = html;
+
+    zone.querySelectorAll(".lire-aussi-carte").forEach(function(carte) {
+        carte.addEventListener("click", function() {
+            ouvrirArticle(Number(carte.dataset.id));
+        });
+    });
+}
+
     function incrementerVue(id) {
     if (!window.db) return;
     const ref = window.db.collection("vues").doc(String(id));
