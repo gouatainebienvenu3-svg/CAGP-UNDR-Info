@@ -9,6 +9,7 @@
     <meta name="theme-color" content="#003366">
 </head>
 <body>
+    <button id="ouvrir-parametres" class="icone-menu">☰</button>
 
     <header>
         <img src="logo.png" alt="CAGP-UNDR" class="logo">
@@ -98,6 +99,32 @@
     </p>
     <button id="mode-admin" class="mode-admin-btn">Administration</button>
 </footer>
+<div id="panneau-parametres" class="panneau-parametres" style="display:none;">
+    <div class="parametres-contenu">
+        <button id="fermer-parametres" class="fermer-parametres-btn">✖</button>
+        <h3>Paramètres</h3>
+
+        <p>Langue</p>
+        <div class="choix-langue">
+            <button class="lang-btn" data-lang="fr">Français</button>
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="ar">العربية</button>
+        </div>
+
+        <p>Apparence</p>
+        <label class="switch-sombre">
+            <input type="checkbox" id="toggle-sombre">
+            Mode sombre
+        </label>
+
+        <p>Taille du texte</p>
+        <div class="choix-taille">
+            <button class="taille-btn" data-taille="petit">A-</button>
+            <button class="taille-btn" data-taille="normal">A</button>
+            <button class="taille-btn" data-taille="grand">A+</button>
+        </div>
+    </div>
+</div>
     <script src="script.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
