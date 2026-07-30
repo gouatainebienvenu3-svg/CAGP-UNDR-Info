@@ -50,6 +50,27 @@ function metAJourAffichageAdmin() {
         boutonAdmin.textContent = "🔒 Mode admin";
     }
 }
+document.getElementById("partager-app").addEventListener("click", function() {
+    const lien = window.location.href;
+
+    if (navigator.share) {
+        navigator.share({
+            title: "UNDR Info",
+            text: "Découvrez UNDR Info, l'application d'actualités du Groupe Parlementaire UNDR.",
+            url: lien
+        }).catch(function(err) {
+            console.log("Partage annulé ou échoué :", err);
+        });
+    } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(lien).then(function() {
+            alert("Lien copié : " + lien);
+        }).catch(function(err) {
+            prompt("Copiez ce lien manuellement :", lien);
+        });
+    } else {
+        prompt("Copiez ce lien manuellement :", lien);
+    }
+});
 
 boutonAdmin.addEventListener("click", function() {
     if (estAdmin) {

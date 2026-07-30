@@ -13,15 +13,19 @@ body {
 header {
     background-color: #003366;
     color: white;
-    padding: 30px 20px;
+    padding: 15px 20px;
     text-align: center;
+}
+header p {
+    font-size: 13px;
+    margin: 0;
 }
 
 .logo {
-    max-width: 120px;
+    max-width: 70px;
     height: auto;
     display: block;
-    margin: 0 auto 10px;
+    margin: 0 auto 6px;
 }
 
 main {
@@ -387,4 +391,19 @@ main {
     display: block;
     max-width: 100%;
     border-radius: 10px;
+}
+.partager-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 16px;
+    background: #003366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.partager-btn:hover {
+    background: #e67e22;
 }
